@@ -30,74 +30,58 @@
                 cursor: pointer;
                 margin:5px;
             }
-
-            .held {
-                border: solid 10px black;
-                background-color: black;
-            }
-
-
-
-            .hovered {
-                border: dotted 5px black;
-            }
-
-            .invisible {
-                display: none;
-            }
         </style>
 
     </head>
     <body>
         <div id="container">
             <div class="holder">
-                <div class="box" draggable="true"></div>
+                <div class="box" draggable="true">1</div>
+				<div class="box" draggable="true">2</div>
             </div>
         
             <div class="holder">
-                <div class="box" draggable="true"></div>
+                
             </div>
-
-            <div class="holder">
-                <div class="box" draggable="true"></div>
-                <div class="box" draggable="true"></div>
-            </div>
-
-            <div class="holder">
             </div>
         </div>
 
         <script>
            class App 
            {
+				
                 static init() 
                 {
-                    App.box = document.getElementsByClassName('box')[0]
+					let draggableContent = "";
+                    let boxes = document.getElementsByClassName('box');
+					let holders = document.getElementsByClassName('holder');
 
-                    App.box.addEventListener("dragstart", App.dragstart)
-                    App.box.addEventListener("dragend", App.dragend)
+					for(const b of boxes)
+					{
+						b.addEventListener("dragstart", function(){App.dragstart(event,this);})
+						b.addEventListener("dragend", function(){App.dragend(event);})
+					}
 
-                    const containers = document.getElementsByClassName('holder')
-
-                    for(const container of containers) 
+                    for(const h of holders) 
                     {
-                        container.addEventListener("dragover", App.dragover)
-                        container.addEventListener("dragenter", App.dragenter)
-                        container.addEventListener("dragleave", App.dragleave)
-                        container.addEventListener("drop", App.drop)
+                        h.addEventListener("dragover", function(){App.dragover(event);})
+                        h.addEventListener("dragenter", function(){App.dragenter(event);})
+                        h.addEventListener("dragleave", function(){App.dragleave(event);})
+                        h.addEventListener("drop", function(){App.drop(event,this)})
                     }
                 }
 
-                static dragstart() 
+                static dragstart(e, ref) 
                 {
-                    this.className += " held"
-
-                    setTimeout(()=>this.className="invisible", 0)
+                    console.log(e);
+					//console.log(ref);
+					this.draggableContent = ref;
+					console.log(this.draggableContent);
                 }
 
-                static dragend() 
+                static dragend(e) 
                 {
-                    this.className = "box"
+                    
                 }
 
                 static dragover(e) 
@@ -108,18 +92,17 @@
                 static dragenter(e) 
                 {
                     e.preventDefault()
-                    this.className += " hovered"
+                    
                 }
 
-                static dragleave() 
+                static dragleave(e) 
                 {
-                    this.className = "holder"
+                    
                 }
 
-                static drop() 
+                static drop(e, ref) 
                 {
-                    this.className = "holder"
-                    this.append(App.box)
+                    ref.append(this.draggableContent);
                 }
             }
 
