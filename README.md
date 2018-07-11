@@ -1,0 +1,1 @@
+Doing DOM manipulation using javascript
