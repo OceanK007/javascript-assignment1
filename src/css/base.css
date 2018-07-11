@@ -1,0 +1,35 @@
+/* Navigation section - Component1 */
+#header img {
+  width: 10rem; }
+
+#startupNavbar ul li a {
+  color: rgba(0, 0, 0, 0.9); }
+
+/* Workplace section */
+#workplace {
+  background-color: #0079bf;
+  height: 40rem;
+  display: flex;
+  overflow: auto; }
+
+.list-wrapper {
+  width: 272px;
+  margin: 0 4px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  background-color: #d6dadc; }
+
+.list-wrapper:first-child {
+  margin-left: 8px; }
+
+.list-wrapper:last-child {
+  margin-right: 8px; }
+
+.list-card:hover {
+  text-decoration: none;
+  background: #edeff0;
+  border-bottom: #d6dadc;
+  z-index: 0; }

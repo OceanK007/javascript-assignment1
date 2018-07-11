@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML | CSS | JS</title>
+    <link rel="icon" href="img/html5.ico" />
+    <!-- Custom CSS (Created using gulp sass command. No need to include bootstrap.css anymore, since we are including it into our scss file)-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    <nav id="header" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="img/logo.png" alt="startup.logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#startupNavbar" aria-controls="startupNavbar"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="startupNavbar">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#hero">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#feature">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#carousel">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#news">Latest</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary button-opacity" href="#">Sign in</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="workplace">
+        <div class="container-fluid">
+            <div id="card-list-container" class="row flex-row flex-nowrap pt-3">
+
+                <!-- List of cards -->
+                <div class="list-wrapper">
+                    <div class="m-2">
+                        <!-- List of cards : name -->
+                        <div class="">
+                            <h5 class="" dir="auto">To Do</h5>
+                        </div>
+
+                        <!-- Card -->
+                        <!-- <div >
+                            <a class="form-control mb-2 list-card" href="#">
+                                <div class="card-details">
+                                    <span class="card-title">CardOne</span>
+                                </div>
+                            </a>
+                        </div> -->
+
+                        <!-- List of cards : options -->
+                        <div>
+                            <label class="sr-only">Add another card</label>
+                            <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
+                            <div>
+                                <button class="card-name-submit btn btn-success">Add Card</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of cards -->
+                <div class="list-wrapper">
+                    <div class="m-2">
+                        <!-- List of cards : name -->
+                        <div class="">
+                            <h5 class="" dir="auto">Doing</h5>
+                        </div>
+
+                        <!-- Card -->
+
+                        <!-- List of cards : options -->
+                        <div>
+                            <label class="sr-only">Add another card</label>
+                            <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
+                            <div>
+                                <button class="card-name-submit btn btn-success">Add Card</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of cards -->
+                <div class="list-wrapper">
+                    <div class="m-2">
+                        <!-- List of cards : name -->
+                        <div class="">
+                            <h5 class="" dir="auto">Done</h5>
+                        </div>
+
+                        <!-- Card -->
+
+                        <!-- List of cards : options -->
+                        <div>
+                            <label class="sr-only">Add another card</label>
+                            <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
+                            <div>
+                                <button class="card-name-submit btn btn-success">Add Card</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- To create list of cards -->
+                <div id="add-card-list" class="list-wrapper">
+                    <div class="m-2">
+                        <label class="sr-only">Add another list</label>
+                        <input id="card-list-name-input" class="form-control mb-2" type="text" name="name" placeholder="Enter list title..." autocomplete="off"
+                            maxlength="512">
+                        <div class="">
+                            <button id="card-list-name-submit" class="btn btn-success">Add List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- We should add scripts at end, so to make sure that markups get loaded first -->
+    <!-- Make sure you are maintaining order while defining scripts tags -->
+    <script src="js/jquery.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
