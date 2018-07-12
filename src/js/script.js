@@ -1,5 +1,5 @@
 let cardList = 
-`<div class="list-wrapper">
+`<div class="list-wrapper list-box">
     <div class="m-2">
         <h5 class="card-list-title">To Do</h5>
     </div>
@@ -15,13 +15,14 @@ let cardList =
     </div>
 </div>`;
 
-let card = `<a class="box form-control mb-2 list-card card-title" href="#">CardOne</a>`;
+let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
 
 // window.onload
 window.onload = function() 
 {
-    addListenerToCard();    
+    addListenerToCardList();    
 };
+
 
 // Adding click event (Won't be executed until you click)
 document.getElementById('card-list-name-submit').addEventListener('click', function() {addNewCardList(event, this)});
@@ -34,7 +35,7 @@ function addNewCardList(e, ref)
     let cardListName = document.getElementById("card-list-name-input");
     // console.log(cardListName.value);
 
-    let cardListContainer = document.getElementById("card-list-container");
+    let cardListContainer = document.getElementById("card-list-holder");
     let addCardListRef = document.getElementById("add-card-list");
     
     let cardListFragment = document.createRange().createContextualFragment(cardList); 
@@ -43,15 +44,15 @@ function addNewCardList(e, ref)
     cardListContainer.insertBefore(cardListFragment, addCardListRef);
 
     // Adding drag events
-    App.applyEvents();
+    App.applyEventsForInnerContainer();
 
     // Cleaning input value
     cardListName.value = "";
 
-    addListenerToCard();
+    addListenerToCardList();
 }
 
-var addListenerToCard = function()
+var addListenerToCardList = function()
 {   
     // Adding listener to same kind of classes
     let addedCardList = document.getElementsByClassName('card-name-submit');
@@ -73,13 +74,13 @@ var addListenerToCard = function()
            element.addEventListener('click', function() {addNewCard(event, this)});
         }
     });
+}
 
-    function addNewCard(e, currentCardRef)
-    {
-        // console.log(e);
-        // console.log(currentCardRef);
-        addCard(e,currentCardRef);
-    }
+function addNewCard(e, currentCardRef)
+{
+    // console.log(e);
+    // console.log(currentCardRef);
+    addCard(e,currentCardRef);
 }
 
 function addCard(e, ref)
@@ -98,8 +99,11 @@ function addCard(e, ref)
         cardFragment.querySelector('.card-title').textContent = inputRef.value;
         cardContainer.append(cardFragment);
 
+        // Adding click event to modify names
+        addListenersToCard();
+
         // Adding drag events
-        App.applyEvents();
+        App.applyEventsForInnerContainer();
 
         //console.log(cardContainer);
     }
@@ -108,6 +112,35 @@ function addCard(e, ref)
     inputRef.value = "";
 }
 
+function addListenersToCard()
+{
+    let addedCards = document.getElementsByClassName('box');
+    // console.log(addedCardList);
+
+    // Or use this iteration (ES6)
+    Array.from(addedCards).forEach(function(element) 
+    {
+        // console.log(element);
+        if(element.getAttribute('clickcount') == null)
+        {
+           element.setAttribute('clickcount', '1');
+           element.addEventListener('click', function() {fetchTitle(event, this)});
+        }
+    });
+}
+
+function fetchTitle(e, ref)
+{
+    console.log(ref);
+    var textareaId = document.getElementById('modify-title-area');
+    textareaId.value = ref.text;
+}
+
+document.getElementById('modify-title-submit').addEventListener('click', function(){modifyTitle(event, this)});
+function modifyTitle(e, ref)
+{
+    
+}
 
 // START : drag and drop functionality //
 class App 
@@ -116,22 +149,52 @@ class App
     {
         let draggableElement = "";
         let insertBeforeElement = "";
-        App.applyEvents();
+        App.applyEventsForInnerContainer();
+        //App.applyEventsForOuterContainer();
     }
 
-    static applyEvents()
+    // static applyEventsForOuterContainer()
+    // {
+    //     let outerHolders = document.getElementById('card-list-holder');
+    //     let innerBoxes = document.getElementsByClassName('list-box');
+
+    //     //console.log(outerHolders);
+    //     //console.log(innerBoxes);
+
+    //     for(const b of innerBoxes)
+    //     {
+    //         //console.log(b);
+    //         if(b.getAttribute('draggable') == null)
+    //         {
+    //             //b.setAttribute('draggable', 'true');
+    //             //b.addEventListener("dragstart", function(){App.dragstart(event,this);})
+    //             //b.addEventListener("dragend", function(){App.dragend(event);})
+    //         }
+    //     }
+
+    //     if(outerHolders.getAttribute('dragcount') == null)
+    //     {
+    //         //outerHolders.setAttribute('dragcount', '1');
+    //         //outerHolders.addEventListener("dragover", function(){App.dragoverOuter(event, this);})
+    //         //outerHolders.addEventListener("dragenter", function(){App.dragenter(event, this);})
+    //         //outerHolders.addEventListener("dragleave", function(){App.dragleave(event, this);})
+    //         //outerHolders.addEventListener("drop", function(){App.dropOuter(event,this)})
+    //     }
+    // }
+
+    static applyEventsForInnerContainer()
     {
         let boxes = document.getElementsByClassName('box');
         let holders = document.getElementsByClassName('holder');
-        console.log(boxes);
+        //console.log(boxes);
         //console.log(holders);
 
         for(const b of boxes)
         {
             //console.log(b);
-            if(b.getAttribute('dragcount') == null)
+            if(b.getAttribute('draggable') == null)
             {
-                b.setAttribute('dragcount', '1');
+                b.setAttribute('draggable', 'true');
                 b.addEventListener("dragstart", function(){App.dragstart(event,this);})
                 b.addEventListener("dragend", function(){App.dragend(event);})
             }
@@ -153,10 +216,10 @@ class App
 
     static dragstart(e, ref) 
     {
-        console.log(e);
-        //console.log(ref);
+        //console.log(e);
+        console.log(ref);
         this.draggableElement = ref;
-        console.log(this.draggableElement);
+        //console.log(this.draggableElement);
     }
 
     static dragend(e) 
@@ -167,6 +230,7 @@ class App
     static dragover(e) 
     {
         e.preventDefault();
+        //e.stopPropagation();
         var target = e.target;
 
         if(this.draggableElement == e.target)
@@ -175,7 +239,7 @@ class App
         }
         else
         {
-            console.log(target.className);
+            //console.log(target.className);
             this.insertBeforeElement = target;
             // console.log(this.insertBeforeElement);
         }
@@ -196,6 +260,7 @@ class App
 
     static drop(e, ref) 
     {
+        e.stopPropagation();
         if(this.insertBeforeElement.className == 'holder')  // Empty container
         {
             ref.append(this.draggableElement);
