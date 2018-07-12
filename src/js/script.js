@@ -1,30 +1,21 @@
 let cardList = 
 `<div class="list-wrapper">
     <div class="m-2">
-        <!-- List of cards : name -->
-        <div>
-            <h5 class="card-list-title">To Do</h5>
-        </div>
+        <h5 class="card-list-title">To Do</h5>
+    </div>
 
-        <!-- List of cards : options -->
-        <div class="add-card-container">
-            <label class="sr-only">Add another card</label>
-            <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
-            <div>
-                <button class="card-name-submit btn btn-success">Add Card</button>
-            </div>
+    <div class="m-2 holder"></div>
+
+    <div class="m-2">
+        <label class="sr-only">Add another card</label>
+        <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
+        <div>
+            <button class="card-name-submit btn btn-success">Add Card</button>
         </div>
     </div>
 </div>`;
 
-let card = 
-`<div >
-    <a class="form-control mb-2 list-card" href="#">
-        <div class="card-details">
-            <span class="card-title">CardOne</span>
-        </div>
-    </a>
-</div>`;
+let card = `<a class="box form-control mb-2 list-card card-title" href="#">CardOne</a>`;
 
 // window.onload
 window.onload = function() 
@@ -51,6 +42,9 @@ function addNewCardList(e, ref)
     //console.log(cardListFragment);
     cardListContainer.insertBefore(cardListFragment, addCardListRef);
 
+    // Adding drag events
+    App.applyEvents();
+
     // Cleaning input value
     cardListName.value = "";
 
@@ -73,9 +67,9 @@ var addListenerToCard = function()
     Array.from(addedCardList).forEach(function(element) 
     {
         // console.log(element);
-        if(element.getAttribute('count') == null)
+        if(element.getAttribute('clickcount') == null)
         {
-           element.setAttribute('count', '1');
+           element.setAttribute('clickcount', '1');
            element.addEventListener('click', function() {addNewCard(event, this)});
         }
     });
@@ -98,15 +92,120 @@ function addCard(e, ref)
     }
     else
     {
-        let cardContainer = ref.parentNode.parentNode.parentNode;
-        let lastChild = ref.parentNode.parentNode;
+        let cardContainer = ref.parentNode.parentNode.previousElementSibling;
+        //let lastChild = ref.parentNode.parentNode;
         let cardFragment = document.createRange().createContextualFragment(card); 
         cardFragment.querySelector('.card-title').textContent = inputRef.value;
-        cardContainer.insertBefore(cardFragment,lastChild);
-        console.log(cardContainer);
+        cardContainer.append(cardFragment);
+
+        // Adding drag events
+        App.applyEvents();
+
+        //console.log(cardContainer);
     }
 
     // Cleaning input value
     inputRef.value = "";
 }
 
+
+// START : drag and drop functionality //
+class App 
+{
+    static init() 
+    {
+        let draggableElement = "";
+        let insertBeforeElement = "";
+        App.applyEvents();
+    }
+
+    static applyEvents()
+    {
+        let boxes = document.getElementsByClassName('box');
+        let holders = document.getElementsByClassName('holder');
+        console.log(boxes);
+        //console.log(holders);
+
+        for(const b of boxes)
+        {
+            //console.log(b);
+            if(b.getAttribute('dragcount') == null)
+            {
+                b.setAttribute('dragcount', '1');
+                b.addEventListener("dragstart", function(){App.dragstart(event,this);})
+                b.addEventListener("dragend", function(){App.dragend(event);})
+            }
+        }
+
+        for(const h of holders) 
+        {
+            //console.log(h);
+            if(h.getAttribute('dragcount') == null)
+            {
+                h.setAttribute('dragcount', '1');
+                h.addEventListener("dragover", function(){App.dragover(event, this);})
+                h.addEventListener("dragenter", function(){App.dragenter(event, this);})
+                h.addEventListener("dragleave", function(){App.dragleave(event, this);})
+                h.addEventListener("drop", function(){App.drop(event,this)})
+            }
+        }
+    }
+
+    static dragstart(e, ref) 
+    {
+        console.log(e);
+        //console.log(ref);
+        this.draggableElement = ref;
+        console.log(this.draggableElement);
+    }
+
+    static dragend(e) 
+    {
+        //console.log("end");
+    }
+
+    static dragover(e) 
+    {
+        e.preventDefault();
+        var target = e.target;
+
+        if(this.draggableElement == e.target)
+        {
+            console.log("Over");
+        }
+        else
+        {
+            console.log(target.className);
+            this.insertBeforeElement = target;
+            // console.log(this.insertBeforeElement);
+        }
+    }
+
+    static dragenter(e) 
+    {
+        e.preventDefault();
+        //console.log("enter");
+        //console.log(e.target);
+    }
+
+    static dragleave(e) 
+    {
+        //console.log("leave");
+        //console.log(e.target);
+    }
+
+    static drop(e, ref) 
+    {
+        if(this.insertBeforeElement.className == 'holder')  // Empty container
+        {
+            ref.append(this.draggableElement);
+        }
+        else
+        {
+            ref.insertBefore(this.draggableElement, this.insertBeforeElement);
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", App.init)
+// END : drag and drop functionality //
