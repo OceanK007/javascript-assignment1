@@ -50,7 +50,7 @@
                 <div class="list-wrapper list-box">
                     <!-- List of cards : name -->
                     <div class="m-2">
-                        <h5 class="card-list-title">To Do</h5>
+                        <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">To Do</h5>
                     </div>
 
                     <!-- Card -->
@@ -74,7 +74,7 @@
                 <div class="list-wrapper list-box">
                     <!-- List of cards : name -->
                     <div class="m-2">
-                        <h5 class="card-list-title">Doing</h5>
+                        <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">Doing</h5>
                     </div>
 
                     <!-- Card -->
@@ -97,7 +97,7 @@
                 <div class="list-wrapper list-box">
                     <!-- List of cards : name -->
                     <div class="m-2">
-                        <h5 class="card-list-title">Done</h5>
+                        <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">Done</h5>
                     </div>
 
                     <!-- Card -->
@@ -137,7 +137,7 @@
         <div class="modal-dialog modal-full" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modify Title</h5>
+                    <h5 class="modal-title" id="title-modal">Modify Title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete-title-submit">Delete Card</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modify-title-submit">OK</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="modify-title-submit">Change Title</button>
                 </div>
             </div>
         </div>

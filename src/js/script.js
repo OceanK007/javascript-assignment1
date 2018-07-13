@@ -1,7 +1,7 @@
 let cardList = 
 `<div class="list-wrapper list-box">
     <div class="m-2">
-        <h5 class="card-list-title">To Do</h5>
+        <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">To Do</h5>
     </div>
 
     <div class="m-2 holder"></div>
@@ -17,11 +17,14 @@ let cardList =
 
 let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
 let titleElementRef = null;
+let deleteCardTitle = false;
+let deleteCardListTitle = false;
 
 // window.onload
 window.onload = function() 
 {
     addListenerToCardList();    
+    addListenersToCardListTitle();
 };
 
 
@@ -51,6 +54,7 @@ function addNewCardList(e, ref)
     cardListName.value = "";
 
     addListenerToCardList();
+    addListenersToCardListTitle();
 }
 
 var addListenerToCardList = function()
@@ -116,7 +120,7 @@ function addCard(e, ref)
 function addListenersToCard()
 {
     let addedCards = document.getElementsByClassName('box');
-    // console.log(addedCardList);
+    // console.log(addedCards);
 
     // Or use this iteration (ES6)
     Array.from(addedCards).forEach(function(element) 
@@ -125,18 +129,57 @@ function addListenersToCard()
         if(element.getAttribute('clickcount') == null)
         {
            element.setAttribute('clickcount', '1');
-           element.addEventListener('click', function() {fetchTitle(event, this)});
+           element.addEventListener('click', function() {fetchTitle(event, this, 'card')});
         }
     });
 }
 
-function fetchTitle(e, ref)
+function addListenersToCardListTitle()
 {
-    //console.log(ref);
+    let cardListTitles = document.getElementsByClassName('card-list-title');
+    //console.log(cardListTitles);
+
+    // Or use this iteration (ES6)
+    Array.from(cardListTitles).forEach(function(element) 
+    {
+        // console.log(element);
+        if(element.getAttribute('clickcount') == null)
+        {
+           element.setAttribute('clickcount', '1');
+           element.addEventListener('click', function() {fetchTitle(event, this, 'cardList')});
+        }
+    });
+}
+
+
+function fetchTitle(e, ref, cardOrList)
+{
+    console.log(ref.textContent);
     var textareaId = document.getElementById('modify-title-area');
-    textareaId.value = ref.text;
+    textareaId.value = ref.textContent;
 
     titleElementRef = ref;
+
+    var modalTitle = document.getElementById('title-modal');
+    var modalDeleteText = document.getElementById('delete-title-submit');
+
+    if(cardOrList == 'card')
+    {
+        deleteCardTitle = true;
+        deleteCardListTitle = false;
+        modalTitle.textContent = "Modify Card Title / Delete Card";
+        modalDeleteText.textContent = "Delete Card";
+    }
+    else if (cardOrList == 'cardList')
+    {
+        deleteCardTitle = false;
+        deleteCardListTitle = true;
+        modalTitle.textContent = "Modify Card-List Title / Delete Card-List";
+        modalDeleteText.textContent = "Delete Card-List";
+    }
+
+    //console.log("deleteCardTitle: "+deleteCardTitle);
+    //console.log("deleteCardListTitle: "+ deleteCardListTitle);
 }
 
 document.getElementById('modify-title-submit').addEventListener('click', function(){modifyTitle(event, this)});
@@ -150,7 +193,14 @@ function modifyTitle(e, ref)
 document.getElementById('delete-title-submit').addEventListener('click', function(){deleteElement(event, this)});
 function deleteElement(e, ref)
 {
-    titleElementRef.parentNode.removeChild(titleElementRef);
+    if(deleteCardTitle == true)
+    {
+        titleElementRef.parentNode.removeChild(titleElementRef);
+    }
+    else if (deleteCardListTitle == true)
+    {
+        titleElementRef.parentNode.parentNode.parentNode.removeChild(titleElementRef.parentNode.parentNode);
+    }
 }
 
 
