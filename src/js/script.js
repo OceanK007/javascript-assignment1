@@ -16,6 +16,7 @@ let cardList =
 </div>`;
 
 let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
+let titleElementRef = null;
 
 // window.onload
 window.onload = function() 
@@ -131,16 +132,27 @@ function addListenersToCard()
 
 function fetchTitle(e, ref)
 {
-    console.log(ref);
+    //console.log(ref);
     var textareaId = document.getElementById('modify-title-area');
     textareaId.value = ref.text;
+
+    titleElementRef = ref;
 }
 
 document.getElementById('modify-title-submit').addEventListener('click', function(){modifyTitle(event, this)});
 function modifyTitle(e, ref)
 {
-    
+    //console.log(titleElementRef.textContent);
+    //console.log(document.getElementById('modify-title-area').value);
+    titleElementRef.textContent = document.getElementById('modify-title-area').value;
 }
+
+document.getElementById('delete-title-submit').addEventListener('click', function(){deleteElement(event, this)});
+function deleteElement(e, ref)
+{
+    titleElementRef.parentNode.removeChild(titleElementRef);
+}
+
 
 // START : drag and drop functionality //
 class App 
