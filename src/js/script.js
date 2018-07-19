@@ -1,3 +1,4 @@
+const localhostURL = 'http://localhost:3000';
 let cardList = 
 `<div class="list-wrapper list-box">
     <div class="m-2">
@@ -16,17 +17,122 @@ let cardList =
 </div>`;
 
 let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
+let board = `<a href="#" class="p-2 bd-highlight board" onclick="getBoardCardList(this, this.id)">Flex item</a>`;
 let titleElementRef = null;
 let deleteCardTitle = false;
 let deleteCardListTitle = false;
+let boardId = null;
 
 // window.onload
 window.onload = function() 
 {
+    hideCardList()
+    fetchBoards();
     addListenerToCardList();    
     addListenersToCardListTitle();
 };
 
+function hideBoards()
+{
+    document.getElementById('boardContainer').style.display = 'none';
+}
+
+function hideCardList()
+{
+    document.getElementById('workplace').style.display = 'none';
+}
+
+function showBoards()
+{
+    document.getElementById('boardContainer').style.display = 'block';
+}
+
+function showCardList()
+{
+    document.getElementById('workplace').style.display = 'block';
+}
+
+// START: Fetching boards //
+function fetchBoards()
+{
+    $.ajax
+    ({
+        type: "GET",
+        url: localhostURL+"/boards",
+        //data: {varName : varValue},
+        //dataType: "text",
+        success: function(data)
+        {
+            //console.log(data);
+            let boardContainer = document.getElementById('boards');
+            $.each(data, function(key,val)
+            {
+                //console.log("id: "+val.id+", title: "+val.title);
+                let boardFragment = document.createRange().createContextualFragment(board); 
+                //boardFragment.querySelector('.board').setAttribute("href", "board.html");
+                boardFragment.querySelector('.board').id = val.id;
+                boardFragment.querySelector('.board').textContent = val.title;
+                boardContainer.append(boardFragment);
+            });
+        },
+        error: function(ex)
+        {
+            console.error("Unable to get data");
+        }
+    });
+}
+// END: Fetching boards //
+
+// START: Fetching card list based on board id //
+function getBoardCardList(ref, id)
+{
+    hideBoards();
+    showCardList();
+    boardId = id;
+    console.log(boardId);
+
+    $.ajax
+    ({
+        type: "GET",
+        url: localhostURL+"/boards/"+id,
+        //data: {varName : varValue},
+        //dataType: "text",
+        success: function(data)
+        {
+            console.log(data);
+            
+            $.each(data.cardList, function(key,val)
+            {
+                let cardListContainer = document.getElementById("card-list-holder");  
+                let addCardListRef = document.getElementById("add-card-list");          
+                let cardListFragment = document.createRange().createContextualFragment(cardList); 
+                cardListFragment.querySelector('.card-list-title').textContent = val.title;
+
+                $.each(val.cards, function(k,v)
+                {
+                    let cardContainer = cardListFragment.querySelector('.holder');  
+                    let cardFragment = document.createRange().createContextualFragment(card); 
+                    cardFragment.querySelector('.card-title').textContent = v.title;
+                    cardContainer.append(cardFragment);
+                });
+
+                cardListContainer.insertBefore(cardListFragment, addCardListRef);
+
+                // Adding drag events
+                App.applyEventsForInnerContainer();
+
+                addListenerToCardList();
+                addListenersToCardListTitle();
+            });
+        },
+        error: function(ex)
+        {
+            console.error("Unable to get data");
+        }
+    });
+}
+
+// END: Fetching card list based on board id //
 
 // Adding click event (Won't be executed until you click)
 document.getElementById('card-list-name-submit').addEventListener('click', function() {addNewCardList(event, this)});
@@ -336,3 +442,4 @@ class App
 
 document.addEventListener("DOMContentLoaded", App.init)
 // END : drag and drop functionality //
+

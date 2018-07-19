@@ -1,0 +1,58 @@
+{
+  "boards": [
+    {
+        "id": 1,
+        "title": "board1",
+        "cardList": 
+        [
+            {
+                "id": 1,
+                "title": "To Do",
+                "cards": 
+                [
+                    {
+                        "id":1,
+                        "title": "One"
+                    },
+                    {
+                        "id":2,
+                        "title": "Two"
+                    },
+                    {
+                        "id":3,
+                        "title": "Three"
+                    }
+                ]
+            },
+
+            {
+                "id": 2,
+                "title": "Doing",
+                "cards": 
+                [
+                    {
+                        "id":1,
+                        "title": "OneDoing"
+                    },
+                    {
+                        "id":2,
+                        "title": "TwoDoing"
+                    },
+                    {
+                        "id":3,
+                        "title": "ThreeDoing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "board2"
+    },
+    {
+        "id": 3,
+        "title": "board3"
+    }
+  ]
+}
