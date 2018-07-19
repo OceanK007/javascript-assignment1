@@ -68,11 +68,12 @@ function fetchBoards()
             $.each(data, function(key,val)
             {
                 //console.log("id: "+val.id+", title: "+val.title);
+                let boardCreate = document.getElementById('board-create');
                 let boardFragment = document.createRange().createContextualFragment(board); 
                 //boardFragment.querySelector('.board').setAttribute("href", "board.html");
                 boardFragment.querySelector('.board').id = val.id;
                 boardFragment.querySelector('.board').textContent = val.title;
-                boardContainer.append(boardFragment);
+                boardContainer.insertBefore(boardFragment,boardCreate);
             });
         },
         error: function(ex)
@@ -89,7 +90,7 @@ function getBoardCardList(ref, id)
     hideBoards();
     showCardList();
     boardId = id;
-    console.log(boardId);
+    //console.log(boardId);
 
     $.ajax
     ({
@@ -99,7 +100,7 @@ function getBoardCardList(ref, id)
         //dataType: "text",
         success: function(data)
         {
-            console.log(data);
+            //console.log(data);
             
             $.each(data.cardList, function(key,val)
             {
@@ -107,12 +108,14 @@ function getBoardCardList(ref, id)
                 let addCardListRef = document.getElementById("add-card-list");          
                 let cardListFragment = document.createRange().createContextualFragment(cardList); 
                 cardListFragment.querySelector('.card-list-title').textContent = val.title;
+                cardListFragment.querySelector('.list-wrapper').id = val.id;
 
                 $.each(val.cards, function(k,v)
                 {
                     let cardContainer = cardListFragment.querySelector('.holder');  
                     let cardFragment = document.createRange().createContextualFragment(card); 
                     cardFragment.querySelector('.card-title').textContent = v.title;
+                    cardFragment.querySelector('.card-title').id = v.id;
                     cardContainer.append(cardFragment);
                 });
 
@@ -123,6 +126,9 @@ function getBoardCardList(ref, id)
 
                 addListenerToCardList();
                 addListenersToCardListTitle();
+
+                // Adding click event to modify names
+                addListenersToCard();
             });
         },
         error: function(ex)
@@ -134,8 +140,44 @@ function getBoardCardList(ref, id)
 
 // END: Fetching card list based on board id //
 
+// Adding click event for board creation
+document.getElementById('board-submit').addEventListener('click', function() {addNewBoard(event, this)});
+
 // Adding click event (Won't be executed until you click)
 document.getElementById('card-list-name-submit').addEventListener('click', function() {addNewCardList(event, this)});
+
+function addNewBoard(e, ref)
+{
+    let boardName = document.getElementById("board-input");
+    let boardContainer = document.getElementById("boards");
+    let boardCreate = document.getElementById('board-create');
+    let lastBoardId = 0;
+    if(boardContainer.lastElementChild.previousElementSibling != null)
+    {
+        lastBoardId = boardContainer.lastElementChild.previousElementSibling.id;
+    }
+    
+    let boardFragment = document.createRange().createContextualFragment(board); 
+    boardFragment.querySelector('.board').textContent = boardName.value;
+    boardFragment.querySelector('.board').id = Number(lastBoardId)+1;
+    
+    boardContainer.insertBefore(boardFragment, boardCreate);
+
+    fetchAndSaveBoardToDB(Number(lastBoardId)+1, boardName.value);
+
+    // Cleaning input value
+    boardName.value = "";
+}
+
+function fetchAndSaveBoardToDB(id, title)
+{
+    var arr = new Array();
+    var newBoard = {"id":id, "title":title, "cardList":arr};
+    //console.log(id);
+    //console.log(title);
+
+    saveDataUsingURL(localhostURL+"/boards/", newBoard, "POST");
+}
 
 function addNewCardList(e, ref)
 {
@@ -146,21 +188,81 @@ function addNewCardList(e, ref)
     // console.log(cardListName.value);
 
     let cardListContainer = document.getElementById("card-list-holder");
+    let lastCardListId = 0;
+    if(cardListContainer.lastElementChild.previousElementSibling != null)
+    {
+        lastCardListId = cardListContainer.lastElementChild.previousElementSibling.id;
+    }
     let addCardListRef = document.getElementById("add-card-list");
     
     let cardListFragment = document.createRange().createContextualFragment(cardList); 
     cardListFragment.querySelector('.card-list-title').textContent = cardListName.value;
+    cardListFragment.querySelector('.card-list-title').parentNode.parentNode.id = Number(lastCardListId)+1;
     //console.log(cardListFragment);
     cardListContainer.insertBefore(cardListFragment, addCardListRef);
 
     // Adding drag events
     App.applyEventsForInnerContainer();
 
-    // Cleaning input value
-    cardListName.value = "";
-
     addListenerToCardList();
     addListenersToCardListTitle();
+
+    // Save cardlist to DB
+    fetchAndSaveCardListToDB(Number(lastCardListId)+1, cardListName.value);
+
+    // Cleaning input value
+    cardListName.value = "";
+}
+
+function fetchAndSaveCardListToDB(id, title)
+{
+    var arr = new Array();
+    var newCardList = {"id":id, "title":title, "cards":arr};
+    //console.log(id);
+    //console.log(title);
+
+    $.ajax
+    ({
+        type: "GET",
+        url: localhostURL+"/boards/"+boardId,
+        //data: {varName : varValue},
+        //dataType: "text",
+        success: function(data)
+        {
+            console.log(data)
+            //console.log(data.cardList);
+            data.cardList.push(newCardList);
+            //console.log(data.cardList);
+            console.log(data);
+            saveDataUsingURL(localhostURL+"/boards/"+boardId, data, "PUT");
+        },
+        error: function(ex)
+        {
+            console.error("Unable to get data");
+        }
+    });
+}
+
+function saveDataUsingURL(url, data, requestType)
+{
+    console.log(url);
+
+    $.ajax
+    ({
+        type: requestType,
+        url: url,
+        data: JSON.stringify(data),
+        contentType : "application/json",
+        //dataType: "text",
+        success: function(data)
+        {
+            console.log(data);
+        },
+        error: function(ex)
+        {
+            console.error("Unable to get data");
+        }
+    });
 }
 
 var addListenerToCardList = function()
@@ -205,9 +307,19 @@ function addCard(e, ref)
     else
     {
         let cardContainer = ref.parentNode.parentNode.previousElementSibling;
+        let cardListId = cardContainer.parentNode.id;
+
+        //console.log(cardListId);
+
+        let lastCardId = 0;
+        if(cardContainer.lastElementChild != null)
+        {
+            lastCardId = cardContainer.lastElementChild.id;
+        }
         //let lastChild = ref.parentNode.parentNode;
         let cardFragment = document.createRange().createContextualFragment(card); 
         cardFragment.querySelector('.card-title').textContent = inputRef.value;
+        cardFragment.querySelector('.card-title').id = Number(lastCardId)+1;
         cardContainer.append(cardFragment);
 
         // Adding click event to modify names
@@ -217,10 +329,45 @@ function addCard(e, ref)
         App.applyEventsForInnerContainer();
 
         //console.log(cardContainer);
+
+        fetchAndSaveCardToDB(Number(lastCardId)+1, inputRef.value, cardListId);
     }
 
     // Cleaning input value
     inputRef.value = "";
+}
+
+function fetchAndSaveCardToDB(id, title, cardListId)
+{
+    var newCard = {"id":id, "title":title};
+    //console.log(id);
+    //console.log(title);
+
+    $.ajax
+    ({
+        type: "GET",
+        url: localhostURL+"/boards/"+boardId,
+        //data: {varName : varValue},
+        //dataType: "text",
+        success: function(data)
+        {
+            console.log(data)
+            //console.log(data.cardList);
+            $.each(data.cardList, function(key,val)
+            {
+                if(val.id == cardListId)
+                {      
+                    console.log(this.cards);
+                    this.cards.push(newCard);
+                    saveDataUsingURL(localhostURL+"/boards/"+boardId, data, "PUT");
+                }
+            });
+        },
+        error: function(ex)
+        {
+            console.error("Unable to get data");
+        }
+    });
 }
 
 function addListenersToCard()

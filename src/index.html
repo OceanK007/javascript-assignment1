@@ -47,6 +47,10 @@
         <div><h3>Boards</h3></div><br>
         <div id="boards" class="d-flex flex-wrap bd-highlight">
             <!-- <a href="#" class="p-2 bd-highlight board">Flex item</a> -->
+            <div id="board-create"> 
+                <input id="board-input" class="form-control mb-2" type="text" name="name" placeholder="Enter board title..." autocomplete="off" maxlength="512">
+                <button id="board-submit" class="btn btn-success">Add Board</button>
+            </div>
         </div>
     </section>
 
@@ -118,7 +122,6 @@
     <!-- We should add scripts at end, so to make sure that markups get loaded first -->
     <!-- Make sure you are maintaining order while defining scripts tags -->
     <script src="js/jquery.js"></script>
-    <script src="js/popper.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/script.js"></script>
 </body>
