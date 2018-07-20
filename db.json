@@ -39,93 +39,20 @@
               "title": "ThreeDoing"
             }
           ]
-        },
-        {
-          "id": 3,
-          "title": "werwr",
-          "cards": [
-            {
-              "id": 1,
-              "title": "23"
-            },
-            {
-              "id": 2,
-              "title": "52345"
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "title": "45454",
-          "cards": [
-            {
-              "id": 1,
-              "title": "wer"
-            }
-          ]
         }
       ]
     },
     {
       "id": 2,
       "title": "board2",
-      "cardList": []
-    },
-    {
-      "id": 3,
-      "title": "board3",
       "cardList": [
         {
           "id": 1,
-          "title": "Hi",
+          "title": "wer",
           "cards": [
             {
               "id": 1,
-              "title": "one"
-            },
-            {
-              "id": 2,
-              "title": "two"
-            },
-            {
-              "id": 3,
-              "title": "three"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Hello",
-          "cards": [
-            {
-              "id": 1,
-              "title": "four"
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "title": "OMG",
-          "cards": [
-            {
-              "id": 1,
-              "title": "five"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "board4",
-      "cardList": [
-        {
-          "id": 1,
-          "title": "Hi",
-          "cards": [
-            {
-              "id": 1,
-              "title": "one"
+              "title": "1"
             },
             {
               "id": 2,
@@ -134,20 +61,62 @@
             {
               "id": 3,
               "title": "3"
+            },
+            {
+              "id": 4,
+              "title": "4"
             }
           ]
         },
         {
           "id": 2,
-          "title": "hel;;lp",
+          "title": "wer",
           "cards": [
             {
               "id": 1,
-              "title": "4"
+              "title": "5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "board3",
+      "cardList": [
+        {
+          "id": 1,
+          "title": "ToDo",
+          "cards": [
+            {
+              "id": 1,
+              "title": "1"
             },
             {
               "id": 2,
+              "title": "2"
+            },
+            {
+              "id": 3,
+              "title": "3"
+            },
+            {
+              "id": 4,
+              "title": "4"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Doing",
+          "cards": [
+            {
+              "id": 1,
               "title": "5"
+            },
+            {
+              "id": 2,
+              "title": "wrewr"
             }
           ]
         }

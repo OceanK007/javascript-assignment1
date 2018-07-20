@@ -1,3 +1,5 @@
+import $ from '../../node_modules/jquery/dist/jquery';
+
 const localhostURL = 'http://localhost:3000';
 let cardList = 
 `<div class="list-wrapper list-box">
@@ -17,11 +19,12 @@ let cardList =
 </div>`;
 
 let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
-let board = `<a href="#" class="p-2 bd-highlight board" onclick="getBoardCardList(this, this.id)">Flex item</a>`;
+let board = `<a href="#" class="p-2 bd-highlight board">Flex item</a>`;
 let titleElementRef = null;
 let deleteCardTitle = false;
 let deleteCardListTitle = false;
 let boardId = null;
+let boardTitle = null;
 
 // window.onload
 window.onload = function() 
@@ -31,6 +34,23 @@ window.onload = function()
     addListenerToCardList();    
     addListenersToCardListTitle();
 };
+
+function addListenersToBoards()
+{
+    let boardList = document.getElementsByClassName('board');
+    //console.log(cardListTitles);
+
+    // Or use this iteration (ES6)
+    Array.from(boardList).forEach(function(element) 
+    {
+        // console.log(element);
+        if(element.getAttribute('clickcount') == null)
+        {
+           element.setAttribute('clickcount', '1');
+           element.addEventListener('click', function() {getBoardCardList(event, this)});
+        }
+    });
+}
 
 function hideBoards()
 {
@@ -75,27 +95,31 @@ function fetchBoards()
                 boardFragment.querySelector('.board').textContent = val.title;
                 boardContainer.insertBefore(boardFragment,boardCreate);
             });
+
+            addListenersToBoards();
         },
         error: function(ex)
         {
             console.error("Unable to get data");
         }
     });
-}
+};
 // END: Fetching boards //
 
 // START: Fetching card list based on board id //
-function getBoardCardList(ref, id)
+function getBoardCardList(e, ref)
 {
     hideBoards();
     showCardList();
-    boardId = id;
+    boardId = e.target.id;
+    boardTitle = ref.textContent;
     //console.log(boardId);
+    document.getElementById('board-title').textContent = boardTitle;
 
     $.ajax
     ({
         type: "GET",
-        url: localhostURL+"/boards/"+id,
+        url: localhostURL+"/boards/"+boardId,
         //data: {varName : varValue},
         //dataType: "text",
         success: function(data)
@@ -146,6 +170,15 @@ document.getElementById('board-submit').addEventListener('click', function() {ad
 // Adding click event (Won't be executed until you click)
 document.getElementById('card-list-name-submit').addEventListener('click', function() {addNewCardList(event, this)});
 
+// Adding click event to board link
+document.getElementById('board-link').addEventListener('click', function() {goToBoard();})
+
+function goToBoard()
+{
+    hideCardList();
+    showBoards();
+}
+
 function addNewBoard(e, ref)
 {
     let boardName = document.getElementById("board-input");
@@ -162,6 +195,8 @@ function addNewBoard(e, ref)
     boardFragment.querySelector('.board').id = Number(lastBoardId)+1;
     
     boardContainer.insertBefore(boardFragment, boardCreate);
+
+    addListenersToBoards();
 
     fetchAndSaveBoardToDB(Number(lastBoardId)+1, boardName.value);
 
@@ -589,4 +624,3 @@ class App
 
 document.addEventListener("DOMContentLoaded", App.init)
 // END : drag and drop functionality //
-
