@@ -1,25 +1,8 @@
 import $ from '../../node_modules/jquery/dist/jquery';
+import {cardList, card, board} from './view';
+const service = require('./service');
+import {localhostURL} from './constant';
 
-const localhostURL = 'http://localhost:3000';
-let cardList = 
-`<div class="list-wrapper list-box">
-    <div class="m-2">
-        <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">To Do</h5>
-    </div>
-
-    <div class="m-2 holder"></div>
-
-    <div class="m-2">
-        <label class="sr-only">Add another card</label>
-        <input class="card-name-input form-control mb-2" type="text" name="name" placeholder="Enter card name..." autocomplete="off" maxlength="512">
-        <div>
-            <button class="card-name-submit btn btn-success">Add Card</button>
-        </div>
-    </div>
-</div>`;
-
-let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
-let board = `<a href="#" class="p-2 bd-highlight board">Flex item</a>`;
 let titleElementRef = null;
 let deleteCardTitle = false;
 let deleteCardListTitle = false;
@@ -29,7 +12,7 @@ let boardTitle = null;
 // window.onload
 window.onload = function() 
 {
-    hideCardList()
+    service.hideCardList()
     fetchBoards();
     addListenerToCardList();    
     addListenersToCardListTitle();
@@ -52,25 +35,7 @@ function addListenersToBoards()
     });
 }
 
-function hideBoards()
-{
-    document.getElementById('boardContainer').style.display = 'none';
-}
 
-function hideCardList()
-{
-    document.getElementById('workplace').style.display = 'none';
-}
-
-function showBoards()
-{
-    document.getElementById('boardContainer').style.display = 'block';
-}
-
-function showCardList()
-{
-    document.getElementById('workplace').style.display = 'block';
-}
 
 // START: Fetching boards //
 function fetchBoards()
@@ -109,8 +74,8 @@ function fetchBoards()
 // START: Fetching card list based on board id //
 function getBoardCardList(e, ref)
 {
-    hideBoards();
-    showCardList();
+    service.hideBoards();
+    service.showCardList();
     boardId = e.target.id;
     boardTitle = ref.textContent;
     //console.log(boardId);
@@ -175,8 +140,8 @@ document.getElementById('board-link').addEventListener('click', function() {goTo
 
 function goToBoard()
 {
-    hideCardList();
-    showBoards();
+    service.hideCardList();
+    service.showBoards();
 }
 
 function addNewBoard(e, ref)
