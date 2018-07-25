@@ -122,4 +122,29 @@ export class Service
             Service.getTitleElementRef().parentNode.parentNode.parentNode.removeChild(Service.getTitleElementRef().parentNode.parentNode);
         }
     }
+
+    static createHTMLElement(htmlString) 
+    {
+        const template = document.createElement('template');
+        template.innerHTML = htmlString;
+        return template.content.firstElementChild;
+    }
+
+    static getLastElementId()
+    {
+        var data = getBoards();
+        console.log(data);
+        var lastBoardId = data[data.length-1].id;
+        console.log(lastBoardId);
+        return lastBoardId;
+    }
+
+    static deletePreviousSiblings(lastElementRef)
+    {        
+        // iterate until we find an element node or there is no previous sibling
+        while(lastElementRef.previousSibling != null) 
+        {
+            lastElementRef.parentNode.removeChild(lastElementRef.previousSibling);
+        }
+    }
 }

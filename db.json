@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "board1",
+      "isActive": true,
       "cardList": [
         {
           "id": 1,
@@ -37,6 +38,45 @@
             {
               "id": 3,
               "title": "ThreeDoing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "board2",
+      "isActive": true,
+      "cardList": [
+        {
+          "id": 1,
+          "title": "one",
+          "cards": [
+            {
+              "id": 1,
+              "title": "1"
+            },
+            {
+              "id": 2,
+              "title": "2"
+            },
+            {
+              "id": 3,
+              "title": "3"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "two",
+          "cards": [
+            {
+              "id": 1,
+              "title": "4"
+            },
+            {
+              "id": 2,
+              "title": "5"
             }
           ]
         }
