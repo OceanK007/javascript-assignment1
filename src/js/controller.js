@@ -1,8 +1,6 @@
-import $ from 'jquery';
-import {cardList, card, board} from './view';
 import {Service} from './service';
+import {BoardService} from './board-service';
 import {CardListService} from './cardlist-service';
-import {localhostURL} from './constant';
 import {DragNDrop} from './dragndrop';
 
 let service = new Service();
@@ -11,14 +9,14 @@ let service = new Service();
 window.onload = function() 
 {
     Service.hideCardList()
-    service.renderBoards();      // Rendering boards
+    BoardService.renderBoards();      // Rendering boards
     console.log(boards);
-    Service.addListenerToCardList();    
-    Service.addListenersToCardListTitle();
+    CardListService.addListenerToCardList();    
+    CardListService.addListenersToCardListTitle();
 };
 
 // Adding click event for board creation
-document.getElementById('board-submit').addEventListener('click', function() {service.addNewBoard(event, this)});
+document.getElementById('board-submit').addEventListener('click', function() {BoardService.addNewBoard(event, this)});
 
 // Adding click event (Won't be executed until you click)
 document.getElementById('card-list-name-submit').addEventListener('click', function() {CardListService.addNewCardList(event, this)});

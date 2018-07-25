@@ -13,6 +13,23 @@ export class CardService
         CardService.addCard(e,currentCardRef);
     }
 
+    static addListenersToCard()
+    {
+        let addedCards = document.getElementsByClassName('box');
+        // console.log(addedCards);
+
+        // Or use this iteration (ES6)
+        Array.from(addedCards).forEach(function(element) 
+        {
+            // console.log(element);
+            if(element.getAttribute('clickcount') == null)
+            {
+                element.setAttribute('clickcount', '1');
+                element.addEventListener('click', function() {Service.fetchTitle(event, this, 'card')});
+            }
+        });
+    }
+
     static addCard(e, ref)
     {
         let inputRef = ref.parentNode.previousElementSibling;
@@ -40,7 +57,7 @@ export class CardService
             cardContainer.append(cardFragment);
 
             // Adding click event to modify names
-            Service.addListenersToCard();
+            CardService.addListenersToCard();
 
             // Adding drag events
             DragNDrop.applyEventsForInnerContainer();
