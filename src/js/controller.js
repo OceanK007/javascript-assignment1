@@ -41,7 +41,7 @@ document.getElementById('board-submit').addEventListener('click', function()
 });
 
 // Adding click event (Won't be executed until you click)
-//document.getElementById('card-list-name-submit').addEventListener('click', function() {CardListService.addNewCardList(event, this)});
+document.getElementById('card-list-name-submit').addEventListener('click', function() {CardListService.addNewCardList(event, this)});
 
 // Adding click event to board link
 document.getElementById('board-link').addEventListener('click', function() {Service.goToBoard();})
