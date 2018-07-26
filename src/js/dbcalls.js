@@ -64,6 +64,7 @@ export function saveDataUsingURL(url, data, requestType)
         success: function(data)
         {
             console.log(data);
+            console.log("Saved to database");
         },
         error: function(ex)
         {
