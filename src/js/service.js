@@ -1,19 +1,88 @@
 import $ from 'jquery';
-import {getBoards, getBoard, saveDataUsingURL} from './dbcalls';
+import {getData, saveDataUsingURL} from './dbcalls';
 import {cardList, card, board} from './view';
 import {DragNDrop} from './dragndrop';
 import {CardService} from './card-service';
+import {boardsURL, cardListURL, cardsURL} from './constant';
+
+let _boardId = null;
+let _boardTitle = null;
+let _cardListRef = null;
+let _titleElementRef = null;
+let _deleteCardTitle = false;
+let _deleteCardListTitle = false;
 
 export class Service
 {
     constructor() 
-    {
-        this.boardId = null;
-        this.boardTitle = null;
-        this.titleElementRef = null;
-        this.deleteCardTitle = false;
-        this.deleteCardListTitle = false;
+    {        
+
     }
+
+    // START : Getters and Setters //
+    static get boardId()
+    {
+        //console.log("boardId getter");
+        return _boardId;
+    }
+
+    static set boardId(bId)
+    {
+        //console.log("boardId setter");
+        _boardId = bId;
+    }
+
+    static get boardTitle()
+    {
+        return _boardTitle;
+    }
+
+    static set boardTitle(title)
+    {
+        _boardTitle = title;
+    }
+
+    static get cardListRef()
+    {
+        return _cardListRef;
+    }
+
+    static set cardListRef(ref)
+    {
+        _cardListRef = ref;
+    }
+
+    static set titleElementRef(ref)
+    {
+        _titleElementRef = ref;
+    }
+
+    static get titleElementRef()
+    {
+        return _titleElementRef;
+    }
+
+    static set deleteCardTitle(flag)
+    {
+        _deleteCardTitle = flag;
+    }
+
+    static get deleteCardTitle()
+    {
+        return _deleteCardTitle;
+    }
+
+    static set deleteCardListTitle(flag)
+    {
+        _deleteCardListTitle = flag;
+    }
+
+    static get deleteCardListTitle()
+    {
+        return _deleteCardListTitle;
+    } 
+
+    // END : Getters and Setters //
 
     static hideBoards()
     {
@@ -41,45 +110,13 @@ export class Service
         Service.showBoards();
     }
 
-    static setTitleElementRef(ref)
-    {
-        this.titleElementRef = ref;
-    }
-
-    static getTitleElementRef()
-    {
-        return this.titleElementRef;
-    }
-
-
-    static setDeleteCardTitle(flag)
-    {
-        this.deleteCardTitle = flag;
-    }
-
-    static getDeleteCardTitle()
-    {
-        return this.deleteCardTitle;
-    }
-
-
-    static setDeleteCardListTitle(flag)
-    {
-        this.deleteCardListTitle = flag;
-    }
-
-    static getDeleteCardListTitle()
-    {
-        return this.deleteCardListTitle;
-    } 
-
     static fetchTitle(e, ref, cardOrList)
     {
         console.log(ref.textContent);
         var textareaId = document.getElementById('modify-title-area');
         textareaId.value = ref.textContent;
 
-        Service.setTitleElementRef(ref);
+        Service.titleElementRef = ref;
         //console.log(Service.getTitleElementRef());
 
         var modalTitle = document.getElementById('title-modal');
@@ -87,15 +124,15 @@ export class Service
 
         if(cardOrList == 'card')
         {
-            Service.setDeleteCardTitle(true);
-            Service.setDeleteCardListTitle(false);
+            Service.deleteCardTitle= true;
+            Service.deleteCardListTitle= false;
             modalTitle.textContent = "Modify Card Title / Delete Card";
             modalDeleteText.textContent = "Delete Card";
         }
         else if (cardOrList == 'cardList')
         {
-            Service.setDeleteCardTitle(false);
-            Service.setDeleteCardListTitle(true);
+            Service.deleteCardTitle = false;
+            Service.deleteCardListTitle = true;
             modalTitle.textContent = "Modify Card-List Title / Delete Card-List";
             modalDeleteText.textContent = "Delete Card-List";
         }
@@ -108,18 +145,18 @@ export class Service
     {
         //console.log(this.titleElementRef.textContent);
         //console.log(document.getElementById('modify-title-area').value);
-        Service.getTitleElementRef().textContent = document.getElementById('modify-title-area').value;
+        Service.titleElementRef.textContent = document.getElementById('modify-title-area').value;
     }
 
     deleteElement(e, ref)
     {
-        if(Service.getDeleteCardTitle() == true)
+        if(Service.deleteCardTitle == true)
         {
-            Service.getTitleElementRef().parentNode.removeChild(Service.getTitleElementRef());
+            Service.titleElementRef.parentNode.removeChild(Service.titleElementRef);
         }
-        else if (Service.getDeleteCardListTitle() == true)
+        else if (Service.deleteCardListTitle == true)
         {
-            Service.getTitleElementRef().parentNode.parentNode.parentNode.removeChild(Service.getTitleElementRef().parentNode.parentNode);
+            Service.titleElementRef.parentNode.parentNode.parentNode.removeChild(Service.titleElementRef.parentNode.parentNode);
         }
     }
 
@@ -130,13 +167,49 @@ export class Service
         return template.content.firstElementChild;
     }
 
-    static getLastElementId()
+    static getLastBoardId()
     {
-        var data = getBoards();
-        console.log(data);
-        var lastBoardId = data[data.length-1].id;
-        console.log(lastBoardId);
+        var data = getData(boardsURL);
+        //console.log(data);
+        var lastBoardId = 0;
+        if(data.length > 0)
+        {
+            lastBoardId = data[data.length-1].id;
+        }
+        //console.log(lastBoardId);
         return lastBoardId;
+    }
+
+    static getLastCardListId()
+    {
+        var data = getData(cardListURL);
+        console.log(data);
+
+        var lastCardListId = 0;
+        //console.log(data.length);
+        if(data.length > 0)
+        {
+            lastCardListId = data[data.length-1].id;
+            console.log(lastCardListId);
+        }
+        
+        return lastCardListId;
+    }
+
+    static getLastCardId()
+    {
+        var data = getData(cardsURL);
+        console.log(data);
+
+        var lastCardId = 0;
+        //console.log(data.length);
+        if(data.length > 0)
+        {
+            lastCardId = data[data.length-1].id;
+            console.log(lastCardId);
+        }
+        
+        return lastCardId;
     }
 
     static deletePreviousSiblings(lastElementRef)

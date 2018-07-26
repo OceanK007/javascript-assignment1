@@ -1,20 +1,20 @@
 import $ from 'jquery';
 import {localhostURL} from './constant';
 
-export function getBoards()
+export function getData(url)
 {
-    var boards = null;
+    var result = null;
     $.ajax
     ({
         type: "GET",
-        url: localhostURL+"/boards",
+        url: url,
         async: false,
         //data: {varName : varValue},
         //dataType: "text",
         success: function(data)
         {
             //console.log(data);
-            boards = data;
+            result = data;
             //service.renderBoards(data);
         },
         error: function(ex)
@@ -23,41 +23,41 @@ export function getBoards()
         }
     });
 
-    return boards;
+    return result;
 };
 
-export function getBoard(boardId)
-{
-    var board = null;
-    $.ajax
-    ({
-        type: "GET",
-        url: localhostURL+"/boards/"+boardId,
-        async: false,
-        //data: {varName : varValue},
-        //dataType: "text",
-        success: function(data)
-        {
-            //console.log(data);
-            board = data;
-        },
-        error: function(ex)
-        {
-            console.error("Unable to get data");
-        }
-    });
+// export function getBoard(boardId)
+// {
+//     var board = null;
+//     $.ajax
+//     ({
+//         type: "GET",
+//         url: localhostURL+"/boards/"+boardId,
+//         async: false,
+//         //data: {varName : varValue},
+//         //dataType: "text",
+//         success: function(data)
+//         {
+//             //console.log(data);
+//             board = data;
+//         },
+//         error: function(ex)
+//         {
+//             console.error("Unable to get data");
+//         }
+//     });
 
-    return board;
-}
+//     return board;
+// }
 
-export function saveDataUsingURL(url, data, requestType)
+export function saveUpdateData(url, data, requestType)
 {
     //console.log(url);
 
     $.ajax
     ({
         type: requestType,
-        url: localhostURL+"/"+url,
+        url: url,
         data: JSON.stringify(data),
         contentType : "application/json",
         //dataType: "text",

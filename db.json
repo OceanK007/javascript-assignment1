@@ -3,45 +3,106 @@
     {
       "id": 1,
       "title": "board1",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "title": "board2",
+      "isActive": true
+    }
+  ],
+  "cardList": [
+    {
+      "id": 1,
+      "title": "To Do",
       "isActive": true,
-      "cardList": [
-        {
-          "id": 1,
-          "title": "To Do",
-          "cards": [
-            {
-              "id": 1,
-              "title": "One"
-            },
-            {
-              "id": 2,
-              "title": "Two"
-            },
-            {
-              "id": 3,
-              "title": "Three"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Doing",
-          "cards": [
-            {
-              "id": 1,
-              "title": "OneDoing"
-            },
-            {
-              "id": 2,
-              "title": "TwoDoing"
-            },
-            {
-              "id": 3,
-              "title": "ThreeDoing"
-            }
-          ]
-        }
-      ]
+      "boardId": 1
+    },
+    {
+      "id": 2,
+      "title": "Doing",
+      "isActive": true,
+      "boardId": 1
+    },
+    {
+      "id": 3,
+      "title": "Thinking",
+      "isActive": true,
+      "boardId": 2
+    },
+    {
+      "id": 4,
+      "title": "Thought",
+      "isActive": true,
+      "boardId": 2
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "title": "One",
+      "isActive": true,
+      "cardListId": 1
+    },
+    {
+      "id": 2,
+      "title": "Two",
+      "isActive": true,
+      "cardListId": 1
+    },
+    {
+      "id": 3,
+      "title": "Three",
+      "isActive": true,
+      "cardListId": 1
+    },
+    {
+      "id": 4,
+      "title": "OneDoing",
+      "isActive": true,
+      "cardListId": 2
+    },
+    {
+      "id": 5,
+      "title": "TwoDoing",
+      "isActive": true,
+      "cardListId": 2
+    },
+    {
+      "id": 6,
+      "title": "ThreeDoing",
+      "isActive": true,
+      "cardListId": 2
+    },
+    {
+      "id": 7,
+      "title": "ONE",
+      "isActive": true,
+      "cardListId": 3
+    },
+    {
+      "id": 8,
+      "title": "TWO",
+      "isActive": true,
+      "cardListId": 3
+    },
+    {
+      "id": 9,
+      "title": "THREE",
+      "isActive": true,
+      "cardListId": 3
+    },
+    {
+      "id": 10,
+      "title": "FOUR",
+      "isActive": true,
+      "cardListId": 4
+    },
+    {
+      "id": 11,
+      "title": "FIVE",
+      "isActive": true,
+      "cardListId": 4
     }
   ]
 }

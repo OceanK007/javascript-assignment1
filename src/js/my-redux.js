@@ -1,23 +1,37 @@
 import {createStore} from 'redux';
-import {BoardService} from './board-service';
+import {renderBoards} from './board-service';
+import {fullDataURL, boardsURL} from './constant';
+import {renderCardList} from './cardlist-service';
+import {renderCard} from './card-service';
+import {getData, saveUpdateData} from './dbcalls';
 
 // STATE ARRAY (FOR UNDO OPERATIONS)
 let stateArray = [];
 
 // STATE
-let state = BoardService.getBoards();
+export let state = getData(fullDataURL);
 console.log(state);
 
 // STORE
 export let store = createStore(reducer, state);
+//console.log(store.getState());
 
 // SUBSCRIBING to STORE
 store.subscribe(render);    // Subscribing, so if state changes, it automatically renders on html
 
 function render()
 {
-    console.log("In Render: "+store.getState());   
-    BoardService.renderBoards(store.getState());
+    console.log("In Render: "+store.getState());  
+    //console.log("In Render: "+store.getState().boards);    
+
+    // Rendering boards
+    renderBoards(store.getState());
+
+    // Rendering cardlist
+    renderCardList(store.getState());
+
+    // Rendering cards
+    renderCard(store.getState());
 }
 
 // REDUCER
@@ -36,6 +50,15 @@ function reducer(state, action)
         case 'REMOVE_BOARD':            
             console.log("REMOVE_BOARD");
             return removeBoardReducer(state, action);
+        
+        case 'ADD_CARD_LIST':
+            console.log("ADD_CARD_LIST");
+            return addCardListReducer(state, action);
+
+        case 'ADD_CARD':
+            console.log("ADD_CARD");
+            return addCardReducer(state, action);
+
         default:
             return state;
     }
@@ -45,35 +68,66 @@ function reducer(state, action)
 function addBoardReducer(state, action)
 {
     console.log(state);
-    if(state == null)
-    {
-        stateArray.push(state);
-        return [
-                {
-                    "id":action.details.id,
-                    "title":action.details.title,
-                    "isActive":action.details.isActive,
-                    "cardList":[]
-                }
-            ];
-    }
-    else
-    {
-        stateArray.push(state);
-        return [
-                ...state, 
-                {
-                    "id":action.details.id,
-                    "title":action.details.title,
-                    "isActive":action.details.isActive,
-                    "cardList":[]
-                }
-            ]
-    }
+    //stateArray.push(state);
+
+    var newState = state;
+    var newBoard = {
+        "id":action.details.id,
+        "title":action.details.title,
+        "isActive":action.details.isActive
+    };
+
+    newState.boards.push(newBoard);
+
+    console.log(newState);
+
+    return newState;
 }
 
 // REMOVE_BOARD REDUCER
 function removeBoardReducer(state, action)
 {
     return state;
+}
+
+// ADD_CARD_LIST REDUCER
+function addCardListReducer(state, action)
+{
+    console.log(state);
+    //stateArray.push(state);
+
+    var newState = state;
+    var newCardList = {
+        "id":action.details.id,
+        "title":action.details.title,
+        "isActive":action.details.isActive,
+        "boardId":action.details.boardId
+    }
+
+    newState.cardList.push(newCardList);
+
+    console.log(newState);
+
+    return newState;
+}
+
+// ADD_CARD REDUCER
+function addCardReducer(state, action)
+{
+    console.log(state);
+    //stateArray.push(state);
+
+    var newState = state;
+    var newCard = {
+        "id":action.details.id,
+        "title":action.details.title,
+        "isActive":action.details.isActive,
+        "cardListId":action.details.cardListId
+    }
+
+    newState.cards.push(newCard);
+
+    console.log(newState);
+
+    return newState;
 }
