@@ -34,7 +34,19 @@
         #content-header
         {
             background-color:rgba(0,0,0,.15);
+            height:40px;
             /* flex:none; */
+        }
+
+        #content-header a
+        {  
+            display: block;
+            padding-top: 5px;
+            padding-left: 15px;
+            font-size:1.2rem;
+            font-weight: bolder;
+            font-style:italic;
+            color:white;
         }
         #content-main
         {
@@ -53,6 +65,7 @@
             right:0;
             padding-bottom:8px;
             margin-bottom:8px;
+            padding-top:8px;
         }
 
         .box-outer
@@ -78,7 +91,7 @@
 
         .box-outer-content
         {
-            height:100%;
+            max-height:100%;
             position:relative;
             border-radius:3px;
             box-sizing:border-box;
@@ -92,9 +105,11 @@
             padding: 10px 8px 8px;
             overflow: hidden;
             word-wrap: break-word;
-            min-height: 20px;
+            min-height: 0px;
             cursor: pointer;
             flex: 0 0 auto;
+            font-weight:bolder;
+            font-size:1rem;
         }
 
         .holder-inner
@@ -103,7 +118,7 @@
             overflow-x:hidden;
             margin:0 4px;
             padding:0 4px;
-            min-height:0;
+            min-height:15px;
             margin-bottom:0px;
         }
 
@@ -119,9 +134,69 @@
             min-height: 20px;
             position: relative;
             text-decoration: none;
-
             overflow: hidden;
             padding: 6px 8px 2px;
+        }
+
+        .box-outer-content-footer
+        {
+            position:relative;
+            margin-bottom:2px;
+            padding: 10px 8px 8px;
+            overflow: hidden;
+            word-wrap: break-word;
+            min-height: 0px;
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+
+        .card-textarea
+        {
+            width: 100%;
+            resize: none;
+            border-top:none;
+            border-left:none;
+            border-right:none;
+            border-radius: 3px;
+        }
+
+        .card-list-textarea
+        {
+            width: 100%;
+            resize: none;
+            border-top:none;
+            border-left:none;
+            border-right:none;
+            border-radius: 3px;
+        }
+
+        .add-space
+        {
+            padding: 10px 8px 8px;
+        }
+
+
+        .box-outer-placeholder
+        {
+            width: 272px;
+            height:100%;
+            display:inline-block;
+            white-space: nowrap;
+            box-sizing:border-box;  
+            vertical-align: top;
+            background: #06437A;
+            border-radius: 3px;
+            /* border: 1px solid #908C8A; */
+            opacity: .5;
+        }
+        .box-inner-placeholder
+        {
+            display:block;
+            margin: 5px 0;
+            padding: 20px 0;
+            background: #fe3;
+            border: 1px solid #cd6;
+            opacity: .6;
         }
     </style>
 </head>
@@ -152,78 +227,150 @@
             </nav>
         </header>
         <section id="content" class="d-flex flex-column flex-grow-1">
-            <div id="content-header">
-                <h1>Board1</h1>
+            <div id="content-header" >
+                <div>
+                    <a>
+                        <span>Board1</span>
+                    </a>
+                </div>
             </div>
             <div id="content-main" class="flex-grow-1">
                 <div class="holder-outer">
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">1</div>
                             <div class="holder-inner flex-fill">
                                 <a class="box-inner">
-                                    1
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita ipsum consequatur maiores, ratione accusamus nulla distinctio. Voluptatum quae neque id doloribus consequuntur sit perspiciatis nemo excepturi aut, veniam, laborum ad!
                                 </a>
+                                <a class="box-inner">2</a>
+                                <a class="box-inner">3</a>
+                                <a class="box-inner">4</a>
+                                <a class="box-inner">5</a>
+                                <a class="box-inner">6</a>
+                                <a class="box-inner">8</a>
+                                <a class="box-inner">9</a>
+                                <a class="box-inner">10</a>
+                                <a class="box-inner">11</a>
+                                <a class="box-inner">12</a>
+                                <a class="box-inner">13</a>
+                                <a class="box-inner">14</a>
+                                <a class="box-inner">15</a>
+                                <a class="box-inner">16</a>
+                                <a class="box-inner">17</a>
+                                <a class="box-inner">18</a>
+                                <a class="box-inner">19</a>
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">2</div>
                             <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    2
-                                </a>
+                                <a class="box-inner">2</a>
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">3</div>
                             <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    3
-                                </a>
+                                
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">4</div>
                             <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    4
-                                </a>
+                                <a class="box-inner">4</a>
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">5</div>
                             <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    5
-                                </a>
+                                <a class="box-inner">5</a>
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
+                    <div class="box-outer">
                         <div class="box-outer-content d-flex flex-column">
                             <div class="box-outer-content-header">6</div>
                             <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    6
-                                </a>
+                                <a class="box-inner">6</a>
+                            </div>
+                            <div class="box-outer-content-footer">
+                                <div class="d-flex flex-column">
+                                    <div class="flex-grow-1">
+                                        <textarea class="card-textarea" placeholder="Type card title"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-success">Add Card</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="box-outer" draggable="true">
-                        <div class="box-outer-content d-flex flex-column">
-                            <div class="box-outer-content-header">7</div>
-                            <div class="holder-inner flex-fill">
-                                <a class="box-inner">
-                                    7
-                                </a>
+
+                    <div class="box-outer">
+                        <div class="box-outer-content d-flex flex-column add-space">
+                            <div class="flex-grow-1">
+                                <textarea class="card-list-textarea" placeholder="Type List Title"></textarea>
+                            </div>
+                            <div class="">
+                                <button class="btn btn-success">Add List</button>
                             </div>
                         </div>
                     </div>
@@ -247,7 +394,26 @@
         {
             console.log("hi");
             //$('.holder-outer').draggable();
-            $('.holder-outer').sortable();
+            // $('.holder-outer').sortable();
+            // $('.holder-inner').sortable();
+
+            
+            // $('.holder-inner').droppable();
+
+            $('.holder-outer').sortable(
+            {
+                placeholder: 'box-outer-placeholder',
+            });
+            $('.holder-inner').sortable(
+            {
+                connectWith: '.holder-inner',
+                placeholder: 'box-inner-placeholder',
+                // forcePlaceholderSize: true,
+                // update: function(event, ui)
+                // {
+                //     console.log("Hi");
+                // }
+            });
         });
     </script>
 </body>
