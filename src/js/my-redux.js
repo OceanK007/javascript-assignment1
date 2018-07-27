@@ -66,7 +66,7 @@ function addBoardReducer(state, action) {
   // console.log(state);
   // stateArray.push(state);
 
-  const newState = state;
+  const newState = Object.assign({},state);
   const newBoard = {
     id: action.details.id,
     title: action.details.title,
@@ -91,7 +91,7 @@ function addCardListReducer(state, action) {
   // console.log(state);
   // stateArray.push(state);
 
-  const newState = state;
+  const newState = Object.assign({},state);
   const newCardList = {
     id: action.details.id,
     title: action.details.title,
@@ -111,7 +111,7 @@ function addCardReducer(state, action) {
   // console.log(state);
   // stateArray.push(state);
 
-  const newState = state;
+  const newState = Object.assign({},state);
   const newCard = {
     id: action.details.id,
     title: action.details.title,
