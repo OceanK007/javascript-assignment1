@@ -9,7 +9,12 @@ import { getData } from './dbcalls';
 // const stateArray = [];
 
 // STATE
-export const state = getData(fullDataURL);
+export let state = {};
+const stateData = getData(fullDataURL);
+if (stateData != null)
+{
+  state = { ...stateData };
+}
 // console.log(state);
 
 // STORE
