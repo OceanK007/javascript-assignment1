@@ -65,6 +65,20 @@
     resize:none;
 }
 
+#card-list-holder
+{
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space:nowrap;
+    position:relative;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding-bottom:8px;
+    margin-bottom:8px;
+}
+
 .card-list-title
 {
     cursor: pointer;
