@@ -1,5 +1,4 @@
-export let cardList = 
-`<div class="list-wrapper list-box">
+export const cardList = `<div class="list-wrapper list-box">
     <div class="m-2">
         <h5 class="card-list-title" data-toggle="modal" data-target="#myModal">To Do</h5>
     </div>
@@ -15,5 +14,5 @@ export let cardList =
     </div>
 </div>`;
 
-export let card = `<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>`;
-export let board = `<a href="#" class="p-2 bd-highlight board">Flex item</a>`;
+export const card = '<a class="box form-control mb-2 list-card card-title" href="#" data-toggle="modal" data-target="#myModal">CardOne</a>';
+export const board = '<a href="#" class="p-2 bd-highlight board">Flex item</a>';

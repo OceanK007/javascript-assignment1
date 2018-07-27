@@ -28,3 +28,10 @@ https://webpack.js.org/guides/getting-started/#basic-setup
 		"profile": { "name": "typicode" }
     }
 3. json-server --watch db.json
+
+# eslint setup
+1. npm install eslint --save
+2. eslint --init
+3. Install eslint extension in visual studio code
+4. Restart workspace
+

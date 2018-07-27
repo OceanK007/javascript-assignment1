@@ -33,6 +33,17 @@ module.exports =
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
                 exclude: /node_modules/
+            },
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'eslint-loader',
+                    options: {
+                        fix: true
+                    }
+                  }
             }
         ]
     },
